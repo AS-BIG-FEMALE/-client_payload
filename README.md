@@ -209,12 +209,13 @@ current system or not. The list of such targets by the build host is as follows.
 | Targets      | Windows | macOS | Linux |
 |--------------|---------|-------|-------|
 | Android      | ✅       | ✅     | ✅     |
-| Apple Mobile | ❌       | ✅     | ❌     |
-| MinGW        | ✅       | ✅     | ✅     |
-| macOS        | ❌       | ✅     | ❌     |
-| Linux        | ✅       | ✅     | ✅     |
-| Visual C++   | ✅       | ❌     | ❌     |
-
+| Apple Mobile | ✅       | ✅     | ✅    |
+| MinGW        | ✅       | ✅     | ✅      |
+| macOS        | ✅       | ✅     | ✅    |
+| Linux Debian | ✅       | ✅     | ✅     |
+| Visual C++   | ✅       | ✅     | ✅     |
+| work on java | 🌱       | 🌱     | 🌱 
+|
 To build for specific targets only, you can configure that using the `jvm` property. For example, to build a shared
 library for the current build host only, set this property to `rustTarget == CargoHost.current.hostTarget`.
 
