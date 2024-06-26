@@ -1,0 +1,31 @@
+import requests, re
+from user_agent import generate_user_agent
+from bs4 import BeautifulSoup
+a1 = '\x1b[1;31m'
+a2 = '\x1b[1;34m'
+a3 = '\x1b[1;32m'
+a4 = '\x1b[1;33m'
+a5 = '\x1b[38;5;208m'
+a6 = '\x1b[38;5;5m'
+a30 = '\x1b[38;5;255m'
+vturl =input(f"{a5}[{a3}${a5}]{a4} YOUR TIK TOK VIDEO URL:{a6} ")
+headers = {"user-agent": generate_user_agent()}
+r = requests.get(vturl, headers=headers)
+soup = BeautifulSoup(r.text, 'html.parser')
+HL = r.text
+canonical_url = HL.split('"canonical":"')[1].split('"')[0]
+username = canonical_url.split('@')[1].split('/')[0].split("\\")[0]
+views_match, likes_match, shares_match, comments_match = re.search(r'"playCount":(\d+)', HL), re.search(
+    r'"diggCount":(\d+)', HL), re.search(r'"shareCount":(\d+)', HL), re.search(r'"commentCount":(\d+)', HL)
+if views_match and likes_match and shares_match and comments_match:
+    views, likes, shares, comments = views_match.group(1), likes_match.group(
+        1), shares_match.group(1), comments_match.group(1)
+try:
+    response = requests.post('http://tik.report.ilebo.cc/users/login', headers={'Accept-Encoding': 'gzip', 'Accept-Language': 'en-US', 'Connection': 'Keep-Alive', 'Content-Length': '73', 'Content-Type': 'application/json; charset=utf-8', 'Host': 'tik.report.ilebo.cc', 'User-Agent': 'TikTok 85.0.0.21.100 Android (33/13; 480dpidpi; 1080x2298; HONOR; ANY-LX2; ANY-LX2;)', 'X-IG-Capabilities': '3brTvw=='}, json={'unique_id': username, 'purchaseTokens': []}).json()
+    if 'data' in response:
+        user_data, stats = response['data']['user']['user'], response['data']['user']['stats']
+        name, followers, following, likes, videos, sec_uid = user_data['nickname'], stats['followerCount'], stats['followingCount'], stats['heartCount'], stats['videoCount'], user_data.get('secUid', '')
+        print(
+            f'{a3} \n—————————————————————————————\n {a2}- {a4}Name {a1}=> {a30}{name}\n{a2} - {a4}UserName {a1}=> {a30}@{username}\n{a2} - {a4}Followers {a1}=> {a30}{followers}\n {a2}- {a4}Following {a1}=> {a30}{following}\n {a2}-{a4}Videos {a1}=> {a30}{videos}\n {a2}- {a4}Video Views {a1}=> {a30}{views}\n{a2} - {a4}Video Likes {a1}=> {a30}{likes}\n {a2}- {a4}Video Shares {a1}=> {a30}{shares}\n {a2}- {a4}Video Comments {a1}=> {a30}{comments}\n{a3}—————————————————————————————\n')
+except:
+    pass
