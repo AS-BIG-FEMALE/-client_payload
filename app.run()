@@ -1,0 +1,8 @@
+start_string = f'''
+                  مرحباََ بكَ <a href ='https://t.me/{usid}'>{name}</a>
+          انا بوت نسخ محتوى من اي قنوات مقيدة الحفض المحتوى 
+          فقط ارسل رابط المنشور من قناة عامة 
+          مثال : <code>https://t.me/whx2x/10</code>
+          <b>Developer : @MrRaph</b>
+          '''
+    return await m.reply(start_string.format(m.from_user.mention), reply_markup=k)
